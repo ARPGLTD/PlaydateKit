@@ -80,6 +80,12 @@ public struct StaticStringInterpolation: StringInterpolationProtocol {
             buffer.append(contentsOf: literal.bytes)
         }
     }
+
+    mutating public func appendInterpolation(_ value: StaticString) {
+        if value.utf8CodeUnitCount > 0 {
+            buffer.append(contentsOf: value.bytes)
+        }
+    }
     
     mutating public func appendInterpolation(_ value: OpaquePointer?) {
         buffer.append(contentsOf: extractDigits(value))
