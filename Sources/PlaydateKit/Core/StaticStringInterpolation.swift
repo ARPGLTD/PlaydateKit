@@ -87,6 +87,13 @@ public struct StaticStringInterpolation: StringInterpolationProtocol {
         }
     }
     
+    mutating public func appendInterpolation(_ value: UnsafePointer<CChar>) {
+        let count = strlen(value)
+        if count > 0 {
+            buffer.append(contentsOf: UnsafeBufferPointer(start: value, count: count))
+        }
+    }
+    
     mutating public func appendInterpolation(_ value: OpaquePointer?) {
         buffer.append(contentsOf: extractDigits(value))
     }

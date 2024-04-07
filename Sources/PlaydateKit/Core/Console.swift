@@ -11,8 +11,20 @@ import CPlaydate
 public import CPlaydate
 #endif
 
+public extension StaticStringInterpolation {
+    mutating func appendInterpolation(_ error: Playdate.Error) {
+        if let text = error.humanReadableText {
+            appendInterpolation(text)
+        }
+    }
+}
+
 public enum Console {
 	public static func log(_ buffer: StaticStringBuffer) {
         logToConsole(Playdate.playdateAPI.system, buffer.bytes)
 	}
+    
+    public static func error(_ buffer: StaticStringBuffer) {
+        errorToConsole(Playdate.playdateAPI.system, buffer.bytes)
+    }
 }
