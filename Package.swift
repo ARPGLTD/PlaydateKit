@@ -14,17 +14,17 @@ let playdateSDKPath: String = if let path = Context.environment["PLAYDATE_SDK_PA
 let package = Package(
     name: "PlaydateKit",
     products: [
-        .library(name: "PlaydateKit", targets: ["PlaydateKit"]),
+        .library(name: "PlaydateKit", type: .static, targets: ["PlaydateKit"]),
         .plugin(name: "PDCPlugin", targets: ["PDCPlugin"])
     ],
     targets: [
         .target(name: "PlaydateKit", dependencies: ["CPlaydate"], swiftSettings: [
-            .enableExperimentalFeature("Embedded"),
+            // .enableExperimentalFeature("Embedded"),
             .unsafeFlags([
                 "-Xfrontend", "-disable-objc-interop",
-                "-Xfrontend", "-disable-stack-protector",
-                "-Xfrontend", "-function-sections",
-                "-Xfrontend", "-gline-tables-only",
+                // "-Xfrontend", "-disable-stack-protector",
+                // "-Xfrontend", "-function-sections",
+                // "-Xfrontend", "-gline-tables-only",
                 "-Xcc", "-DTARGET_EXTENSION",
                 "-Xcc", "-I", "-Xcc", "\(gccIncludePrefix)/include",
                 "-Xcc", "-I", "-Xcc", "\(gccIncludePrefix)/include-fixed",
