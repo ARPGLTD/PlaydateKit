@@ -681,6 +681,22 @@ public enum Graphics {
         }
     }
 
+    public static func drawLine(
+        x1: CInt, y1: CInt,
+        x2: CInt, y2: CInt,
+        width: CInt = 1,
+        color: Color = .black
+    ) {
+        color.withLCDColor {
+            graphics.drawLine.unsafelyUnwrapped(
+                x1, y1,
+                x2, y2,
+                width,
+                $0
+            )
+        }
+    }
+    
     /// Draws a `rect` with the specified `color`.
     public static func drawRect(
         _ rect: Rect<CInt>,
@@ -707,6 +723,19 @@ public enum Graphics {
         }
     }
 
+    public static func fillRect(
+        x: CInt, y: CInt, width: CInt, height: CInt,
+        color: Color = .black
+    ) {
+        color.withLCDColor {
+            graphics.fillRect.unsafelyUnwrapped(
+                x, y,
+                width, height,
+                $0
+            )
+        }
+    }
+    
     /// Draws a filled triangle with points at `p1`, `p2`, and `p3`.
     public static func fillTriangle(
         p1: Point<CInt>,
