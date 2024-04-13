@@ -23,6 +23,11 @@ public enum File {
             guard file.close.unsafelyUnwrapped(pointer) == 0 else { throw lastError }
         }
 
+        @discardableResult
+        public func _close() -> Bool {
+            file.close.unsafelyUnwrapped(pointer) == 0
+        }
+
         /// Flushes the output buffer of file immediately. Returns the number of bytes written.
         public func flush() throws(Playdate.Error) -> CInt {
             let writtenCount = file.flush.unsafelyUnwrapped(pointer)
