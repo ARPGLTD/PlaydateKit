@@ -46,6 +46,28 @@ public enum File {
             return readCount
         }
 
+        /// Convenience to read into a raw buffer pointer. Reads at most buffer.count bytes.
+        public func read(
+            buffer: UnsafeMutableRawBufferPointer
+        ) throws(Playdate.Error) -> CInt {
+            let readCount = file.read.unsafelyUnwrapped(pointer, buffer.baseAddress, CUnsignedInt(buffer.count))
+            guard readCount != -1 else { throw lastError }
+            return readCount
+        }
+
+        /// Convenience to read a buffer of data of a specified length. 
+        public func read(
+            length: CUnsignedInt
+        ) throws(Playdate.Error) -> [CChar] {
+            var readCount: CInt = 0
+            let data: [CChar] = .init(unsafeUninitializedCapacity: Int(length)) { buffer, initializedCount in
+                readCount = file.read.unsafelyUnwrapped(pointer, UnsafeMutableRawBufferPointer(buffer).baseAddress, length)
+                initializedCount = Int(readCount == -1 ? 0 : readCount)
+            }
+            guard readCount != -1 else { throw lastError }
+            return data
+        }
+
         /// Sets the read/write offset in the file handle to `position`, relative to the `seek`.
         public func seek(
             to position: CInt,
